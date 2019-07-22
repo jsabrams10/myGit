@@ -1,0 +1,73 @@
+John Abrams (jsa109)
+Chris Zachariah (cvz2)
+CS 214 – Systems Programming 
+Prof. Francisco 
+Asst3 – Where’s the File? (WTF)
+
+TESTPLAN
+
+	*** To The Grader ***
+	
+	When working on this project, we ran into many problems. We were not able to finish every single 	client command. Thus, we thoroughly tested the commands that we did finish. 
+	
+	The WTFtest is NOT an accurate representation of what our project can do. When running it, it is not 
+	guaranteed to get the results we seek. We think this is because of the the fact that we run the 	executableoutside of the two directories (client and server). 
+
+	Our readme.pdf does explain each of the commands that we worked on and what it does. When run by 	client in thecorrect order we believe the commands do work as they should. 
+
+	We tested the commands that we built a copious amount of times and believe that they do their 		function.
+
+	Thank you for reading.   
+	
+	*********************
+
+
+	*** Cases to Test ***
+	
+	*** Assuming that the Makefile has been called and a client executable is inside its own client 		directory and the server executable is inside its own server directory ***
+
+	1 => ./WTFserver 10909	=> if this port number does not work, try a different one
+	
+	2 => ./WTF configure 127.0.0.1 10909	=> if this port number does not work, try a different one 							(make sure to match it with the server's port number 												in step 1)
+
+	3 => ./WTF create PA1
+
+	4 => nano ./PA1/file1	=> inside here , type whatever you want
+	
+	5 => ./WTF add PA1 file1
+
+	6 => nano ./PA1/file1	=> change the text inside in order to get a different hash 
+
+	7 => ./WTF commit PA1
+
+	8 => ./WTF remove PA1 file1
+
+	9 => ./WTF currentversion PA1	=> here most likely no file names will be printed since more
+						commands need to be called for the server to contain some 						files
+	
+	*** This order of commands showcase the commands that we have worked on ***
+	
+	*********************
+
+	*** About TestCases.txt ***
+
+	TestCase 1:	
+	Tests the server's and client's ability to connect to each other
+
+	TestCase 2:	
+	Tests the client's 'create' command and show that the directory will be made in both the client 
+	and server's repository with .Manifests in each
+
+	TestCase 3:
+	Tests the client's 'add' command. It then shows that the file was added to the .Manifest of the 	client. 
+
+	TestCase 4:
+	Tests the client's 'remove' command. It then shows the .Manifest to prove that the file 
+	indeed removed.
+
+	TestCase 5:
+	Tests the client's 'currentversion' command. It shows the files listed under the .Manifest in the 
+	server for a specific project. (Since we were not able to get to other commands, the server's
+	.Manifest will never have any files).
+	
+	***********************

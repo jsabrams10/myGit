@@ -1,0 +1,274 @@
+John Abrams (jsa109)
+Chris Zachariah (cvz2)
+CS 214 - Systems Programming
+Prof. Francisco
+Asst3 - Where's the File? (WTF)
+
+----------
+
+TESTCASES
+
+NOTE: FOR ALL CASES LISTED BELOW, TWO COMMAND LINE PROCESSES SHOULD BE UTILIZED (DENOTED "[server]$" AND "[client]$"). THESE PROCESSES SHOULD EXECUTE THEIR CORRESPONDING EXECUTABLES FROM WITHIN THE "SERVER" AND "CLIENT" DIRECTORIES, RESPECTIVELY. WHILE OUR "WTFtest" PROGRAM RUNS THESE EXECUTABLES FROM OUTSIDE BOTH FOLDERS, THIS IS NOT THE WAY THE PROGRAM HAS BEEN BUILT TO OPERATE.
+
+NOTE: ALL LISTED TESTCASES ARE SUCCESSFUL (HENCE "EXPECTED / ACTUAL OUTPUT").
+
+NOTE: THE FOLLOWING TESTCASES ASSUME THAT "Make" HAS ALREADY BEEN RUN CORRECTLY.
+
+----------
+
+TESTCASE 1 - ESTABLISH A CONNECTION BETWEEN SERVER AND CLIENT
+
+INPUT:
+
+[server]$ ./WTFserver 11111
+[client]$ ./WTF configure 127.0.0.1 11111
+
+EXPECTED / ACTUAL OUTPUT:
+
+[server]$ ./WTFserver 11111
+Server: Socket successfully opened
+Port number is VALID.
+Server: Address bound
+Server: Server is now listening.
+
+[client]$ ./WTF configure 127.0.0.1 11111
+Client: Socket created.
+Port number is VALID.
+Client: Address valid.
+Client: ./.configure file created
+Client: ./.configure file has the following information: IP address and PORT
+
+[client]$ cat .configure
+127.0.0.1	11111
+
+----------
+
+TESTCASE 2 - CREATE AN EMPTY PROJECT DIRECTORY
+
+INPUT:
+
+[server]$ ./WTFserver 22222
+[client]$ ./WTF configure 127.0.0.1 22222
+[client]$ ./WTF create testProj
+
+EXPECTED / ACTUAL OUTPUT:
+
+[server]$ ./WTFserver 22222
+Server: Socket successfully opened
+Port number is VALID.
+Server: Address bound
+Server: Server is now listening.
+
+[client]$ ./WTF configure 127.0.0.1 22222
+Client: Socket created.
+Port number is VALID.
+Client: Address valid.
+Client: ./.configure file created
+Client: ./.configure file has the following information: IP address and PORT
+
+[client]$ ./WTF create testProj
+Client: Socket created.
+Client: Address valid.
+Client: Connection to server successful
+Client: Command sent. Ready to run.
+Client: Name of the project sent to the Server.
+Server: Project not found. Creating new directory and shortly sending over .Manifest
+Client: .Manifest contents for project 'testProj' received.
+Client: Project directory 'testProj' and .Manifest made.
+
+Server: Client accepted and will be dealt with shortly.
+Server: Client handled.
+Server: Command 'E' received from client.
+Server: Received the project name from the client.
+Server: Sent the .Manifest contents to the client.
+Server: Server is now listening.
+
+[client]$ ls -a
+.  ..  .configure  testProj  WTF  WTF.c
+
+[client]$ cat .configure
+127.0.0.1	22222
+
+[client]$ ls -a testProj
+.  ..  .Manifest
+
+[client]$ cat testProj/.Manifest
+0
+
+[server]$ ^C
+
+[server]$ ls -a
+.  ..  testProj  WTFserver  WTFserver.c
+
+[server]$ ls -a testProj
+.  ..  .Manifest
+
+[server]$ cat testProj/.Manifest 
+0
+
+----------
+
+TESTCASE 3 - ADD A FILE TO A PROJECT
+
+INPUT:
+
+[server]$ ./WTFserver 9999
+[client]$ ./WTF configure 127.0.0.1 9999
+[client]$ ./WTF create testProj
+[client]$ ./WTF add testProj testFile
+
+EXPECTED / ACTUAL OUTPUT:
+
+[server]$ ./WTFserver 9999
+Server: Socket successfully opened
+Port number is VALID.
+Server: Address bound
+Server: Server is now listening.
+
+[client]$ ./WTF configure 127.0.0.1 9999
+Client: Socket created.
+Port number is VALID.
+Client: Address valid.
+Client: ./.configure file created
+Client: ./.configure file has the following information: IP address and PORT
+
+[client]$ ./WTF create testProj
+Client: Socket created.
+Client: Address valid.
+Client: Connection to server successful
+Client: Command sent. Ready to run.
+Client: Name of the project sent to the Server.
+Server: Project not found. Creating new directory and shortly sending over .Manifest
+Client: .Manifest contents for project 'testProj' received.
+Client: Project directory 'testProj' and .Manifest made.
+
+Server: Client accepted and will be dealt with shortly.
+Server: Client handled.
+Server: Command 'E' received from client.
+Server: Received the project name from the client.
+Server: Sent the .Manifest contents to the client.
+Server: Server is now listening.
+
+[client]$ touch testProj/testFile
+
+[client]$ ls -a testProj/
+.  ..  .Manifest  testFile
+
+[client]$ ./WTF add testProj testFile
+
+[client]$ cat testProj/.Manifest
+0
+0	testProj/testFile	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+----------
+
+TESTCASE 4 - REMOVE A FILE FROM A PROJECT
+
+INPUT:
+
+[server]$ ./WTFserver 55555
+[client]$ ./WTF configure 127.0.0.1 55555
+[client]$ ./WTF create testProj
+[client]$ ./WTF add testProj testFile
+[client]$ ./WTF remove testProj testFile
+
+EXPECTED / ACTUAL OUTPUT:
+
+[server]$ ./WTFserver 55555
+Server: Socket successfully opened
+Port number is VALID.
+Server: Address bound
+Server: Server is now listening.
+
+[client]$ ./WTF configure 127.0.0.1 55555
+Client: Socket created.
+Port number is VALID.
+Client: Address valid.
+Client: ./.configure file created
+Client: ./.configure file has the following information: IP address and PORT
+
+[client]$ ./WTF create testProj
+Client: Socket created.
+Client: Address valid.
+Client: Connection to server successful
+Client: Command sent. Ready to run.
+Client: Name of the project sent to the Server.
+Server: Project not found. Creating new directory and shortly sending over .Manifest
+Client: .Manifest contents for project 'testProj' received.
+Client: Project directory 'testProj' and .Manifest made.
+
+Server: Client accepted and will be dealt with shortly.
+Server: Client handled.
+Server: Command 'E' received from client.
+Server: Received the project name from the client.
+Server: Sent the .Manifest contents to the client.
+Server: Server is now listening.
+
+[client]$ touch testProj/testFile
+
+[client]$ ./WTF add testProj testFile
+
+[client]$ ./WTF remove testProj testFile
+
+[client]$ cat testProj/.Manifest 
+0
+
+----------
+
+TESTCASE 5 - REQUEST THE CURRENTVERSION (METADATA) FROM THE SERVER
+
+INPUT:
+
+[server]$ ./WTFserver 10101
+[client]$ ./WTF configure 127.0.0.1 10101
+[client]$ ./WTF create testProj
+[client]$ ./WTF currentversion testProj
+
+EXPECTED / ACTUAL OUTPUT:
+
+[server]$ ./WTFserver 10101
+Server: Socket successfully opened
+Port number is VALID.
+Server: Address bound
+Server: Server is now listening.
+
+[client]$ ./WTF configure 127.0.0.1 10101
+Client: Socket created.
+Port number is VALID.
+Client: Address valid.
+Client: ./.configure file created
+Client: ./.configure file has the following information: IP address and PORT
+
+[client]$ ./WTF create testProj
+Client: Socket created.
+Client: Address valid.
+Client: Connection to server successful
+Client: Command sent. Ready to run.
+Client: Name of the project sent to the Server.
+Server: Project not found. Creating new directory and shortly sending over .Manifest
+Client: .Manifest contents for project 'testProj' received.
+Client: Project directory 'testProj' and .Manifest made.
+
+Server: Client accepted and will be dealt with shortly.
+Server: Client handled.
+Server: Command 'E' received from client.
+Server: Received the project name from the client.
+Server: Sent the .Manifest contents to the client.
+Server: Server is now listening.
+
+[client]$ ./WTF currentversion testProj
+Client: Socket created.
+Client: Address valid. Trying to connect to server.
+Client: Connection to server successful
+Server: Project found. Will shortly send over .Manifest.
+Client: .Manifest contents for project 'testProj' received.
+Client: *** Project: 'testProj' has no files in the Server's .Manifest ***
+
+Server: Client accepted and will be dealt with shortly.
+Server: Client handled.
+Server: Command 'V' received from client.
+Server: Received the project name from the client.
+Server: Sent the .Manifest contents to the client.
+Server: Server is now listening.
+
+
